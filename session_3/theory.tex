@@ -1,0 +1,130 @@
+\documentclass{beamer}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usetheme{Boadilla}
+\usecolortheme{seahorse}
+
+\title{Probabilistic and Statistical Modeling}
+\author{Vasilis Gkolemis}
+\institute{ATHENA RC | HUA}
+\date{June 2025}
+
+\begin{document}
+
+
+
+\begin{frame}
+  \titlepage
+  \vfill
+  \footnotesize
+  \textcopyright\
+  Vasilis Gkolemis, 2025. Licensed under CC BY 4.0.
+\end{frame}
+
+\begin{frame}{Contents}
+  \tableofcontents
+\end{frame}
+
+
+\begin{frame}{Helping Material}
+  \begin{itemize}
+    \item \textbf{Primer on Probabilistic Modeling} \url{https://www.inf.ed.ac.uk/teaching/courses/pmr/22-23/assets/notes/probabilistic-modelling-primer.pdf}
+  \end{itemize}
+\end{frame}
+
+
+\section{Recap}
+
+\begin{frame}{Session 1 – Recap}
+  \begin{itemize}
+    \item \textbf{What we covered:}
+    \begin{itemize}
+      \item \textbf{Probabilistic Modeling:}
+      Model real-world phenomena using probabilities.
+
+      \item \textbf{Probabilistic Reasoning (Inference):}
+      Use known probabilities to infer unknowns.
+
+      \item \textbf{Bayesian Analysis:}
+      Modeling and Reasoning with Bayes’ rule.
+
+      \item \textbf{Core Rules of Probability:}
+        The sum, product and Bayes’ rule.
+
+      \item \textit{Example: Alzheimer’s diagnostic test.}
+    \end{itemize}
+
+    \item \textbf{What’s still to explore:}
+    \begin{itemize}
+      \item Our example was simple; two $1D$ random variables were enough:
+      \begin{itemize}
+        \item $X$: the test result
+        \item $Y$: the disease status
+      \end{itemize}
+    \item Real-world problems are much more complex
+      \begin{itemize}
+      \item Involve more random variables and of higher dimensions.
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Session 2 – Recap}
+  \begin{itemize}
+    \item \textbf{What we covered:}
+    \begin{itemize}
+      \item \textbf{Multivariate Random Variables and Distributions:}
+      \begin{itemize}
+        \item PDFs, PMFs and CDFs
+        \item Key properties: expectation and variance.
+        \item How to sample from these distributions.
+        \item Key-distributions: Bernoulli, Normal, Poisson.
+      \end{itemize}
+
+      \item We now have powerful tools to model complexity!
+    \end{itemize}
+
+    \item \textbf{What’s still to explore:}
+    \begin{itemize}
+    \item How to use RVs and their properties to draw conclusions about real-world phenomena in a \textit{principled} and \textit{unified} way?
+   \item The \textbf{Bayesian framework} is a good way to do that.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Session 3 – Overview}
+  \begin{itemize}
+    \item \textbf{What we’ll explore:}
+    \begin{itemize}
+      \item \textbf{The Bayesian Framework}
+      \item \textbf{Key Ingredients:}
+      \begin{itemize}
+        \item \textbf{Prior Distribution:} Our belief before seeing the data.
+        \item \textbf{Likelihood:} How compatible is the observed data is with different parameter values.
+        \item \textbf{Posterior Distribution:} Our updated beliefs after observing the data.
+        \item \textbf{Predictive Distribution:} Make predictions about new, unseen data.
+      \end{itemize}
+    \end{itemize}
+
+    \item \textbf{What you should already know:}
+    \begin{itemize}
+      \item The intuition behind probabilistic modeling — Alzheimer’s test case (Session 1)
+      \item Core probability rules: sum, product, and Bayes' rule (Session 1)
+      \item Handle multivariate distributions and apply their properties (Session 2)
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Properties of a Probability Distribution}
+
+\section{Important Distributions}
+
+
+\end{document}
