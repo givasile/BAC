@@ -2,6 +2,13 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \graphicspath{{./figures/}}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,
+  urlcolor=blue,
+}
 
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -39,39 +46,42 @@
 \end{frame}
 
 
-\section{Recap}
+\section{Intro \& Recap}
 
 \begin{frame}{Session 1 – Recap}
   \begin{itemize}
     \item \textbf{What we covered:}
     \begin{itemize}
       \item \textbf{Probabilistic Modeling:}
-      Model real-world phenomena using probabilities.
-
+      Model the world using probabilities
       \item \textbf{Probabilistic Reasoning (Inference):}
-      Use known probabilities to infer unknowns.
-
+      Use knowns to infer unknowns
       \item \textbf{Bayesian Analysis:}
       Modeling and Reasoning with Bayes’ rule.
-
       \item \textbf{Core Rules of Probability:}
-        The sum, product and Bayes’ rule.
-
+      The sum, product and Bayes’ rule.
       \item \textit{Example: Alzheimer’s diagnostic test.}
     \end{itemize}
 
+    \vspace{0.5cm}
     \item \textbf{What’s still to explore:}
     \begin{itemize}
-      \item Our example was simple; two $1D$ random variables were enough:
+    \item Our example was simple
       \begin{itemize}
-        \item $X$: the test result
-        \item $Y$: the disease status
+        \item $X$: the test result --- a $1D$ random variable in $\{0, 1\}$
+        \item $Y$: the disease status --- a $1D$ random variable in $\{0, 1\}$
       \end{itemize}
-    \item Real-world problems are much more complex
+    \item Real-world problems are more complex
       \begin{itemize}
-      \item Involve more random variables and of higher dimensions.
+      \item Involve high-dimensional random variables
+      \item Involve complex relationships between variables
       \end{itemize}
+    \item How can we model these complexities?
+    \begin{itemize}
+      \item Session 2 extended our probabilistic toolbox.
+      \item Session 3 will show how to use it in practice.
     \end{itemize}
+  \end{itemize}
   \end{itemize}
 \end{frame}
 
@@ -89,11 +99,17 @@
 
       \item We now have powerful tools to model complexity!
     \end{itemize}
-
+    \vspace{0.5cm}
     \item \textbf{What’s still to explore:}
     \begin{itemize}
-    \item How to use RVs and their properties to draw conclusions about real-world phenomena in a \textit{principled} and \textit{unified} way?
-   \item The \textbf{Bayesian framework} is a good way to do that.
+    \item A glue to connect our probabilistic tools for performing analysis.
+    \item A \textit{principled} and \textit{unified} way to:
+      \begin{itemize}
+        \item Model complex relationships between variables
+        \item Infer unknowns from knowns
+        \item Make predictions about future observations
+      \end{itemize}
+   \item The \textbf{Bayesian framework} is (among others) a powerful glue for this.
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -103,28 +119,268 @@
   \begin{itemize}
     \item \textbf{What we’ll explore:}
     \begin{itemize}
-      \item \textbf{The Bayesian Framework}
-      \item \textbf{Key Ingredients:}
+      \item The Bayesian Framework with each key components:
       \begin{itemize}
         \item \textbf{Prior Distribution:} Our belief before seeing the data.
         \item \textbf{Likelihood:} How compatible is the observed data is with different parameter values.
         \item \textbf{Posterior Distribution:} Our updated beliefs after observing the data.
         \item \textbf{Predictive Distribution:} Make predictions about new, unseen data.
       \end{itemize}
+      \item How to use the Bayesian framework for predictive tasks.
     \end{itemize}
-
-    \item \textbf{What you should already know:}
-    \begin{itemize}
-      \item The intuition behind probabilistic modeling — Alzheimer’s test case (Session 1)
-      \item Core probability rules: sum, product, and Bayes' rule (Session 1)
-      \item Handle multivariate distributions and apply their properties (Session 2)
+    \vspace{0.5cm}
+    \item \textbf{Be confident. You already know important stuff:}
+      \begin{itemize}
+        \item Session 1:
+          \begin{itemize}
+            \item Intuition about Bayesian modeling $\rightarrow$ Alzheimer’s test case
+            \item Core probability rules: sum, product, and Bayes' rule
+            \end{itemize}
+          \item Session 2:
+            \begin{itemize}
+              \item Multivariate random variables and distributions
+              \item Key properties: expectation and variance
+              \item How to sample from these distributions
+            \end{itemize}
     \end{itemize}
   \end{itemize}
 \end{frame}
 
-\section{Properties of a Probability Distribution}
+\section{Probabilistic vs statistical models}
 
-\section{Important Distributions}
+% Slide 13
+\begin{frame}{Models}
+\begin{itemize}
+  \item The term “model” has multiple meanings, see e.g. \url{https://en.wikipedia.org/wiki/Model}
+  \item Let's distinguish between three types of models:
+  \begin{itemize}
+    \item probabilistic model
+    \item (parametric) statistical model
+    \item Bayesian model
+    \end{itemize}
+  \item Note: the three types are often confounded, and often just called probabilistic or statistical model, or just “model”.
+  \item \href{https://opencourse.inf.ed.ac.uk/sites/default/files/https/opencourse.inf.ed.ac.uk/pmr/2023/probabilistic-modelling-primer.pdf}{Introduction to Probabilistic Modelling} $\rightarrow$ for further reading.
 
+\end{itemize}
+\end{frame}
+
+% Slide 14
+\begin{frame}{Probabilistic model}
+\begin{itemize}
+\item From first lecture:
+  \begin{quote}
+    \vspace{0.4cm}
+    A probabilistic model is an abstraction of reality that uses probability theory to quantify the chance of uncertain events.
+  \end{quote}
+  \vspace{0.2cm}
+  \item Example from the first lecture: cognitive impairment test
+  \begin{itemize}
+    \item Sensitivity of 0.8 and specificity of 0.95 (Scharre, 2010)
+    \item Probabilistic model for presence of impairment ($x = 1$) and detection by the test ($y = 1$):
+    \begin{itemize}
+      \item $P(x = 1) = 0.11$ (prior)
+      \item $P(y = 1 \mid x = 1) = 0.8$ (sensitivity)
+      \item $P(y = 0 \mid x = 0) = 0.95$ (specificity)
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+% Slide 15
+\begin{frame}{Probabilistic model}
+\begin{itemize}
+  \item More technically:
+  \begin{quote}
+    probabilistic model $\equiv$ probability distribution (pmf/pdf).
+  \end{quote}
+  \item Probabilistic model was written in terms of the probability $P$.
+  \item In terms of the pmf it is:
+  \begin{itemize}
+    \item $p_x(1) = 0.11$
+    \item $p_{y \mid x}(1 \mid 1) = 0.8$
+    \item $p_{y \mid x}(0 \mid 0) = 0.95$
+  \end{itemize}
+  \item Commonly written as:
+  \begin{itemize}
+    \item $p(x = 1) = 0.11$
+    \item $p(y = 1 \mid x = 1) = 0.8$
+    \item $p(y = 0 \mid x = 0) = 0.95$
+  \end{itemize}
+  \item where the notation for probability measure $P$ and pmf $p$ are confounded.
+\end{itemize}
+\end{frame}
+
+% Slide 16
+\begin{frame}{Statistical model}
+\begin{itemize}
+  \item If we substitute the numbers with parameters, we obtain a (parametric) statistical model:
+  \begin{itemize}
+    \item $p(x = 1) = \theta_1$
+    \item $p(y = 1 \mid x = 1) = \theta_2$
+    \item $p(y = 0 \mid x = 0) = \theta_3$
+  \end{itemize}
+  \item For each value of the $\theta_i$, we obtain a different pmf.
+  \item Dependency highlighted by writing:
+  \begin{itemize}
+    \item $p(x = 1; \theta_1) = \theta_1$
+    \item $p(y = 1 \mid x = 1; \theta_2) = \theta_2$
+    \item $p(y = 0 \mid x = 0; \theta_3) = \theta_3$
+  \end{itemize}
+\item $p(x, y; \theta)$ where $\theta = (\theta_1, \theta_2, \theta_3)$ is a vector of parameters.
+\item or $p(x, y \mid \theta)$, for highlighting that $\theta$ is considered a random variable.
+
+  \item A statistical model corresponds to a set of probabilistic models, here indexed by the parameters $\theta$: $\{p(x; \theta)\}_\theta$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{What is Bayesian modeling?}
+
+\begin{quote}
+A Bayesian model turns a statistical model into a probabilistic one by treating parameters $\theta$ as random variables.
+\end{quote}
+
+\vspace{0.5cm}
+\textbf{Goal:} Learn what we believe about $\theta$ after seeing data — and use that to make predictions.
+
+\vspace{0.5cm}
+\begin{itemize}
+\item A Bayesian model is a probabilistic model $p(x, y, \theta)$
+\item In supervised settings, we consider $x$ as observed, so we care about $p(y, \theta \mid x)$.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Bayesian Modeling in Steps}
+
+\textbf{We don’t know the full joint distribution $p(x, y, \theta)$.}
+\begin{itemize}
+  \item If we did, every analysis would be trivial.
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{What we do have:}
+\begin{itemize}
+  \item Observed data $\mathcal{D} = \{(x^{(i)}, y^{(i)})\}_{i=1}^N$ — i.i.d. samples from $p(x, y)$
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{What we assume:}
+\begin{itemize}
+  \item $p(y \mid x, \theta)$ — how data is generated given a specific parameter $\theta$
+  \item $p(\theta)$ — our beliefs about the parameters before seeing data
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{What we want to learn:}
+\begin{itemize}
+  \item $p(\theta \mid \mathcal{D})$ — what we believe about the parameters after seeing data
+  \item The predictive distribution $p(y \mid x, \mathcal{D})$ — predictions that account for parameter uncertainty
+  \item Possibly others: e.g. marginal likelihood $p(\mathcal{D})$
+\end{itemize}
+
+\end{frame}
+
+\section{Bayesian Modeling for Supervised Tasks}
+\begin{frame}{Bayesian Modeling for Supervised Tasks}
+
+  \begin{itemize}
+    \item \textbf{Supervised learning:} We observe a dataset of input–output pairs
+    $\mathcal{D} = \{(x^{(i)}, y^{(i)})\}_{i=1}^N$ drawn from an unknown joint distribution $p(x, y)$.
+
+    \item \textbf{Bayesian perspective:} Use this data to learn the relationship $x \mapsto y$ while capturing uncertainty in the model parameters.
+
+    \item \textbf{Hypothesis:}
+      \begin{itemize}
+        \item (1): assume a parametric family for $p(y \mid x, \theta)$, such as linear regression, neural networks, etc. (Parametric modeling assumption)
+        \item (2): assume a prior belief over the parameters $p(\theta)$ (prior assumption)
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+\section{Examples of parametric conditional models}
+
+\begin{frame}{Example: Linear Regression}
+  \begin{itemize}
+    \item \textbf{Hypothesis:} The outcome depends linearly on some input plus noise.
+    \item \textbf{Example:} Predict house price from size.
+      \begin{itemize}
+        \item $Y$ — house price
+        \item $X$ — house size
+        \item Model: $Y = wX + b + \epsilon$, with $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+      \end{itemize}
+    \item $p(Y \mid X; \theta) = \mathcal{N}(Y \mid wX + b, \sigma^2)$
+    \item \textbf{Parameters:} $\mathbf{\theta} = (w, b)$ -- 2 variables.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example: Linear Regression}
+  \begin{itemize}
+  \item \textbf{Hypothesis:} The outcome depends linearly on some input plus noise.
+  \item Generalizes to any number of input features
+
+    \item \textbf{Example:} Predict house price from size, number of rooms, and
+      \begin{itemize}
+        \item $Y$ — house price
+        \item $X = (X_1, X_2, \ldots, X_d)$ — house features (size, number of rooms, etc.)
+        \item Model: $Y = wX + b + \epsilon$, with $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+        \end{itemize}
+    \item $p(Y \mid X; \theta) = \mathcal{N}(Y \mid wX + b, \sigma^2)$
+    \item \textbf{Parameters:} $\mathbf{\theta} = (w, b)$: $d+1$ variables.
+
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Example: Non-linear Regression}
+  \begin{itemize}
+    \item \textbf{Hypothesis:} The relationship between input and output is complex and nonlinear plus noise.
+    \item \textbf{Example:} Predict bike rentals from weather data.
+      \begin{itemize}
+        \item $Y$ — number of bikes rented per hour
+        \item $X$ — weather features (temperature, humidity, etc.)
+        \item Model $ Y = f_\theta(X) + \epsilon$, with $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+          \item $f_\theta(X)$ is a non-linear function parameterized by $\theta$.
+          \end{itemize}
+        \item $p(Y \mid X; \theta) = \mathcal{N}(Y \mid f_\theta(X), \sigma^2)$
+        \item what is $f_\theta(X)$?
+          \begin{itemize}
+          \item A neural network with weights $\theta$, normally of thousands of variables.
+          \item A random forest with decision trees where the structure and parameters are defined by $\theta$, normally of hundreds of variables.
+          \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{The Flexibility—and Cost—of the Bayesian Framework}
+
+\begin{itemize}
+  \item \textbf{Bayesian framework is flexible:}
+  We can assume any model for $p(y \mid x, \theta)$.
+  \begin{itemize}
+    \item Example: $y = f_\theta(x) + \epsilon$, where $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+    and $f_\theta(x)$ can be a neural network, random forest, etc.
+    \item The output $y$ can follow any distribution — not just Normal:
+    skewed, heavy-tailed, discrete (e.g., Poisson, Bernoulli), etc.
+  \end{itemize}
+
+\item \textbf{But flexibility comes at a cost}
+  \begin{itemize}
+    \item the more complex $p(y \mid x, \theta)$:
+      \begin{itemize}
+      \item Complex $\rightarrow$ a high-dimensional $\theta$.
+      \item Complex $\rightarrow$ a complex $f_\theta(x)$
+      \end{itemize}
+    \item the harder it is to perform inference.
+    \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+\subsection{Likelihood}
+
+\subsection{Prior Distribution}
+
+\subsection{Inference}
 
 \end{document}
