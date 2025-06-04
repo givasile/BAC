@@ -1,5 +1,9 @@
 \documentclass{beamer}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bm}
+
 \usepackage{graphicx}
 \graphicspath{{./figures/}}
 \usepackage{hyperref}
@@ -146,7 +150,7 @@
   \end{itemize}
 \end{frame}
 
-\section{Probabilistic vs statistical models}
+\section{Probabilistic vs statistical vs Bayesian models}
 
 % Slide 13
 \begin{frame}{Models}
@@ -281,7 +285,6 @@ A Bayesian model turns a statistical model into a probabilistic one by treating 
 
 \end{frame}
 
-\section{Bayesian Modeling for Supervised Tasks}
 \begin{frame}{Bayesian Modeling for Supervised Tasks}
 
   \begin{itemize}
@@ -298,7 +301,7 @@ A Bayesian model turns a statistical model into a probabilistic one by treating 
     \end{itemize}
   \end{frame}
 
-\section{Examples of parametric conditional models}
+\section{Likelihood}
 
 \begin{frame}{Example: Linear Regression}
   \begin{itemize}
@@ -377,10 +380,270 @@ A Bayesian model turns a statistical model into a probabilistic one by treating 
 
 \end{frame}
 
-\subsection{Likelihood}
+\begin{frame}
+  From $p(y \mid x, \theta)$ to the likelihood function $L(\bm{\theta})$:
+  \end{frame}
 
-\subsection{Prior Distribution}
+\begin{frame}
+  \frametitle{The likelihood function $L(\bm{\theta})$}
 
-\subsection{Inference}
+  \begin{itemize}
+    \item Measures agreement between $\bm{\theta}$ and the observed data $\mathcal{D}$
+    \item Probability that sampling from the model with parameter value $\bm{\theta}$ generates data like $\mathcal{D}$
+    \item Exact match for discrete random variables
+  \end{itemize}
+
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{figures/likelihood_1.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The likelihood function $L(\bm{\theta})$}
+
+  \begin{itemize}
+    \item Measures agreement between $\bm{\theta}$ and the observed data $\mathcal{D}$
+    \item Probability that sampling from the model with parameter value $\bm{\theta}$ generates data like $\mathcal{D}$
+    \item Small neighbourhood for continuous random variables
+  \end{itemize}
+
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{figures/likelihood_2.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The likelihood function $L(\bm{\theta})$}
+
+  \begin{itemize}
+    \item Probability that the model generates data like $\mathcal{D}$ for parameter value $\bm{\theta}$,
+    \[
+      L(\bm{\theta}) = p(\mathcal{D}; \bm{\theta})
+    \]
+    \item[] where $p(\mathcal{D}; \bm{\theta})$ is the parameterised model pdf/pmf.
+    \item The likelihood function indicates the likelihood of the parameter values, and not of the data.
+    \item For iid data $\bm{x}_1, \dots, \bm{x}_n$
+    \[
+      L(\bm{\theta}) = p(\mathcal{D}; \bm{\theta}) = p(\bm{x}_1, \dots, \bm{x}_n; \bm{\theta}) = \prod_{i=1}^n p(\bm{x}_i; \bm{\theta})
+    \]
+    \item Log-likelihood function $\ell(\bm{\theta}) = \log L(\bm{\theta})$. For iid data:
+    \[
+      \ell(\bm{\theta}) = \sum_{i=1}^n \log p(\bm{x}_i; \bm{\theta})
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Different Perspectives on the Likelihood Function}
+ There are different modeling mindsets
+  \begin{itemize}
+  \item \href{https://christophmolnar.com/books/modeling-mindsets}{Modeling Mindsets} by Christoph Molnar
+  \end{itemize}
+  \vspace{0.5cm}
+  \begin{itemize}
+  \item \textbf{Frequentist perspective:}
+    \begin{itemize}
+    \item Premise: The world is best approached through probability distributions with fixed but unknown parameters.
+    \item one set of parameters $\bm{\theta}$ is correct, we just don’t know which one.
+    \item Consequence: Find the best parameter values $\bm{\theta}^*$ --- our uncertainty is about whether the parameters are correct.
+
+    \end{itemize}
+  \item \textbf{Bayesian perspective:}
+    \begin{itemize}
+    \item Premise: The world is best approached through probability distributions with probabilistic parameters.
+    \item Parameters $\bm{\theta}$ are random variables with a prior distribution $p(\bm{\theta})$.
+    \item Consequence: Update the prior parameter distributions using data to obtain the posterior distribution and draw conclusions.
+    \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{If we were not Bayesians}
+  \begin{itemize}
+  \item We would use the likelihood function $L(\bm{\theta})$ to find the best parameter values $\bm{\theta}^*$.
+    \item Intuition: There is one model that is correct, the one that makes the observed data most probable.
+    \item This is called \textbf{maximum likelihood estimation (MLE)}:
+      \[
+        \bm{\theta}^* = \arg\max_{\bm{\theta}} L(\bm{\theta}) = \arg\max_{\bm{\theta}} p(\mathcal{D}; \bm{\theta})
+      \]
+    \item MLE does not account for uncertainty in the parameters.
+\end{itemize}
+  \end{frame}
+
+
+  \begin{frame}{MLE - Example}
+    \begin{itemize}
+    \item lets return to the linear gaussian example: \[p(y \mid x; \theta) = \mathcal{N}(y \mid w x + b, \sigma^2)\]
+    \item The likelihood function is:
+     \[ L(\theta) = p(\mathcal{D}; \theta) = \prod_{i=1}^N p(y^{(i)} \mid x^{(i)}; \theta) \]
+   \item The log-likelihood function is:
+     \[
+       \ell(\theta) = \log L(\theta) = \sum_{i=1}^N \log p(y^{(i)} \mid x^{(i)}; \theta)
+     \]
+    \item MLE maximizes the likelihood
+
+    \end{itemize}
+  \end{frame}
+
+\begin{frame}{MLE - Example}
+  \begin{itemize}
+    \item MLE finds the parameters $\theta^* = (w, \sigma^2)$ that minimize the negative log-likelihood:
+    \[
+      \theta^* = \arg\min_{\theta = (w, \sigma^2)} -\ell(\theta)
+    \]
+
+    \item For $y_i = wx_i + \varepsilon_i$, with $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$, the likelihood is:
+    \[
+      p(y_i \mid x_i, w, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - w x_i)^2}{2\sigma^2}\right)
+    \]
+
+    \item The negative log-likelihood is:
+    \[
+      -\ell(w, \sigma^2) = \frac{n}{2} \log(2\pi \sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - w x_i)^2
+    \]
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{MLE - Example}
+  \begin{itemize}
+
+    \item Minimizing w.r.t. $w$ gives:
+    \[
+      w^* = \frac{\sum_{i=1}^n x_i y_i}{\sum_{i=1}^n x_i^2}
+    \]
+
+    \item Plugging $w^*$ back and minimizing w.r.t. $\sigma^2$ gives:
+    \[
+      \sigma^{2*} = \frac{1}{n} \sum_{i=1}^n (y_i - w^* x_i)^2
+    \]
+
+  \item $w^*$ are the ones that minimize the squared error between the predicted and observed values.
+  \item $\sigma^{2*}$ is the variance of the residuals, i.e., the noise in the data.
+   \item for new predictions, we can use:
+    \[
+      p(y \mid x; w^*, \sigma^{2*}) = \mathcal{N}(y \mid w^* x, \sigma^{2*})
+    \]
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Why MLE is Not Enough}
+  \begin{itemize}
+    \item \textbf{MLE} finds the parameter $\theta^*$ that makes the data most likely.
+    \[
+      \theta^* = \arg\max_\theta L(\theta)
+    \]
+    \item But MLE treats $\theta^*$ as \textit{the truth} — no room for doubt.
+    \item \textbf{Problem:} It ignores \textbf{epistemic uncertainty} — our uncertainty about $\theta$.
+    \item It only models \textbf{aleatory uncertainty} — randomness in the data.
+    \pause
+    \item What if:
+    \begin{itemize}
+      \item We have limited data?
+      \item The model is overly complex?
+      \item Multiple $\theta$ values explain the data almost equally well?
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Why We Are Bayesians: Embracing Uncertainty}
+  \begin{itemize}
+    \item MLE ranks parameter values via the likelihood $L(\theta)$:
+    \[
+      L(\theta^*) = \max_\theta L(\theta)
+    \]
+    \item But many $\theta$ may be almost as plausible!
+    \item Especially when:
+    \begin{itemize}
+      \item data is scarce,
+      \item the model is complex,
+      \item or the model is mis-specified.
+    \end{itemize}
+    \vspace{0.5em}
+    \item \textbf{Bayesian modeling} treats $\theta$ as a \textit{random variable}, not a fixed value.
+    \item We don’t commit to one model — we reason over a \textbf{distribution of plausible models}.
+    \item This gives us a posterior distribution:
+    \[
+      p(\theta \mid \mathcal{D})
+    \]
+    capturing our full uncertainty given the data.
+  \end{itemize}
+\end{frame}
+
+\section{Inference}
+
+\begin{frame}{Prior and Posterior}
+  \begin{itemize}
+    \item \textbf{Prior distribution} $p(\theta)$: Our beliefs about the parameters before seeing data.
+    \item \textbf{Posterior distribution} $p(\theta \mid \mathcal{D})$: Our updated beliefs after observing data $\mathcal{D}$.
+    \item The posterior is computed using Bayes' rule:
+    \[
+      p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta) p(\theta)}{p(\mathcal{D})} = \frac{L(\theta) p(\theta)}{p(\mathcal{D})}
+    \]
+    where:
+    \begin{itemize}
+      \item $p(\mathcal{D} \mid \theta)$ is the likelihood function.
+      \item $p(\mathcal{D})$ is the marginal likelihood, a normalizing constant.
+      \end{itemize}
+    \item we often write $p(\theta \mid \mathcal{D}) \propto p(\mathcal{D} \mid \theta) p(\theta)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Predictive Posterior}
+  \begin{itemize}
+    \item \textbf{Predictive posterior} $p(y \mid x, \mathcal{D})$: Our predictions about new data $y$ given input $x$ and observed data $\mathcal{D}$.
+    \item It accounts for uncertainty in the parameters $\theta$:
+    \[
+      p(y \mid x, \mathcal{D}) = \int p(y \mid x, \theta) p(\theta \mid \mathcal{D}) d\theta
+    \]
+    where:
+    \begin{itemize}
+      \item $p(y \mid x, \theta)$ is the model likelihood for a specific parameter $\theta$.
+      \item $p(\theta \mid \mathcal{D})$ is the posterior distribution of the parameters.
+    \end{itemize}
+  \item This integral averages over all plausible parameter values, weighted by their posterior probability.
+  \item Normally, it is impossible to compute analytically, so we use approximations and sampling methods.
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Predictive Posterior using samples}
+  \begin{itemize}
+  \item If we have samples from the posterior:
+    \[ \theta^m \sim p(\theta \mid \mathcal{D}) \text{ for } m = 1, \ldots, M \]
+
+  \item
+    we can make predictions by sampling from the predictive posterior:
+    \[
+      y^m \sim p(y \mid x, \theta^m) \text{ for } m = 1, \ldots, M
+    \]
+  \item This gives us a set of predictions $\{y^m\}_{m=1}^M$ with:
+    \begin{itemize}
+      \item Expectation:
+        \[
+          \hat{y} = \frac{1}{M} \sum_{m=1}^M y^m
+        \]
+      \item Variance:
+        \[
+          \hat{\sigma}^2 = \frac{1}{M} \sum_{m=1}^M (y^m - \hat{y})^2
+        \]
+    \end{itemize}
+  \item This approach captures uncertainty in the predictions by averaging over all plausible parameter values.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+  \begin{itemize}
+    \item We have seen how to use the Bayesian framework for probabilistic modeling.
+    \item We have learned how to:
+      \begin{itemize}
+        \item Define a prior distribution over parameters.
+        \item Compute the likelihood function from observed data.
+        \item Update our beliefs using Bayes' rule to obtain the posterior distribution.
+        \item Make predictions using the predictive posterior.
+      \end{itemize}
+    \item The Bayesian framework allows us to reason about uncertainty in a principled way.
+    \item Next, we will explore practical applications and tools for Bayesian modeling.
+    \end{itemize}
+\end{frame}
 
 \end{document}
