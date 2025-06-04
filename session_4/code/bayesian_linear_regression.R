@@ -128,7 +128,7 @@ library(mvtnorm)
 
 
 # Generate synthetic data
-n <- 3
+n <- 100
 x <- runif(n, -3, 3)
 sigma_noise <- 1   # Noise std dev
 
@@ -222,6 +222,119 @@ for (i in seq_along(prior_sds)) {
   
   ggsave(
     filename = sprintf("figures/posterior_lines_%d.pdf", i),
+    plot = p_lines,
+    width = 6,
+    height = 4
+  )
+}
+
+
+
+
+############## less points
+############################################ Compute posterior in analytical form
+set.seed(42)
+
+library(ggplot2)
+library(ellipse)
+library(mvtnorm)
+
+
+# Generate synthetic data
+n <- 5
+x <- runif(n, -3, 3)
+sigma_noise <- 1   # Noise std dev
+
+# True parameters
+w_true <- 2
+b_true <- -1
+
+y_true <- w_true * x + b_true
+y <- y_true + rnorm(n, 0, sigma_noise)
+
+# Design matrix
+X <- cbind(1, x)   # n x 2
+
+
+prior_sds <- c(1, 2, sqrt(0.4))
+
+for (i in seq_along(prior_sds)) {
+  prior_sd <- prior_sds[i]
+  sigma_prior_sq <- prior_sd^2
+  
+  # Prior covariance
+  Sigma_prior <- diag(sigma_prior_sq, 2)
+  Sigma_prior_inv <- solve(Sigma_prior)
+  
+  # Posterior
+  Sigma_post <- solve(t(X) %*% X / sigma_noise^2 + Sigma_prior_inv)
+  mu_post <- Sigma_post %*% (t(X) %*% y / sigma_noise^2)
+  
+  x_line <- seq(-3, 3, length.out = 100)
+  
+  ## --- Contour plot of the posterior ---
+  beta0_seq <- seq(-5, 5, length.out = 100)
+  w_seq <- seq(-5, 5, length.out = 100)
+  grid <- expand.grid(beta0 = beta0_seq, w = w_seq)
+  grid$dens <- dmvnorm(grid, mean = as.vector(mu_post), sigma = Sigma_post)
+  
+  p_contour <- ggplot(grid, aes(x = beta0, y = w, z = dens)) +
+    geom_contour(color = "blue") +
+    geom_point(aes(x = b_true, y = w_true), color = "red", size = 3) +
+    labs(
+      title = paste0("Posterior Contour (prior sd = ", round(prior_sd, 2), ")"),
+      x = expression(beta[0]),
+      y = expression(w)
+    ) +
+    xlim(-1.5, -0.5) + ylim(1.5, 2.5) +
+    theme_minimal()
+  
+  ggsave(
+    filename = sprintf("figures/posterior_contour_less_%d.pdf", i),
+    plot = p_contour,
+    width = 6,
+    height = 4
+  )
+  
+  ## --- Plot lines sampled from prior and posterior ---
+  prior_samples <- rmvnorm(30, mean = c(0, 0), sigma = Sigma_prior)
+  post_samples <- rmvnorm(30, mean = as.vector(mu_post), sigma = Sigma_post)
+  
+  df_lines <- data.frame()
+  
+  # Add posterior lines (purple)
+  for (j in 1:nrow(post_samples)) {
+    beta0 <- post_samples[j, 1]
+    w <- post_samples[j, 2]
+    y_line <- beta0 + w * x_line
+    df_lines <- rbind(df_lines, data.frame(x = x_line, y = y_line, type = "posterior"))
+  }
+  
+  # Add prior lines (gray)
+  for (j in 1:nrow(prior_samples)) {
+    beta0 <- prior_samples[j, 1]
+    w <- prior_samples[j, 2]
+    y_line <- beta0 + w * x_line
+    df_lines <- rbind(df_lines, data.frame(x = x_line, y = y_line, type = "prior"))
+  }
+  
+  # Add ground truth
+  y_true_line <- b_true + w_true * x_line
+  df_true <- data.frame(x = x_line, y = y_true_line)
+  
+  p_lines <- ggplot() +
+    geom_line(data = df_lines[df_lines$type == "prior", ], aes(x = x, y = y), color = "black", alpha = 0.4) +
+    geom_line(data = df_lines[df_lines$type == "posterior", ], aes(x = x, y = y), color = "purple", alpha = 0.8) +
+    geom_line(data = df_true, aes(x = x, y = y), color = "red", size = 1.2) +
+    labs(
+      title = paste0("Posterior & Prior Sampled Lines (prior sd = ", round(prior_sd, 2), ")"),
+      x = "x", y = "y"
+    ) +
+    ylim(-15, 15) +
+    theme_minimal()
+  
+  ggsave(
+    filename = sprintf("figures/posterior_lines_less_%d.pdf", i),
     plot = p_lines,
     width = 6,
     height = 4
