@@ -206,7 +206,34 @@ p(\boldsymbol{\theta} \mid \mathcal{D}) \approx \mathcal{N}(\bm{\theta}; \bm{\mu
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Laplace Approximation in Logistic Regression Example}
+
+\begin{frame}{Why Laplace Works in Logistic Regression}
+
+Consider Bayesian logistic regression:
+\[
+p(\boldsymbol{\theta} \mid \mathcal{D}) \propto p(\mathcal{D} \mid \boldsymbol{\theta}) \cdot p(\boldsymbol{\theta})
+\]
+
+\medskip
+
+\begin{itemize}
+  \item \textbf{Likelihood:} \(p(\mathcal{D} \mid \boldsymbol{\theta}) = \prod_{n} \sigma(\boldsymbol{\theta}^\top \mathbf{x}_n)^{y_n}(1 - \sigma(\boldsymbol{\theta}^\top \mathbf{x}_n))^{1 - y_n}\)
+  \item \textbf{Prior:} \(p(\boldsymbol{\theta}) = \mathcal{N}(\boldsymbol{\theta}; \mathbf{0}, \tau^2 \mathbf{I})\)
+\end{itemize}
+
+\medskip
+
+\[
+\Rightarrow p(\boldsymbol{\theta} \mid \mathcal{D}) = \text{Gaussian prior} \cdot \prod_n \text{sigmoid likelihood}
+\]
+
+\medskip
+
+\textbf{Conclusion:} The posterior is a Gaussian (prior) where each sigmoid slices off a portion of the mass. The resulting distribution has a single mode, making Laplace a good approximation.
+
+\end{frame}
+
+\begin{frame}{Laplace Approximation in our Toy Example}
 
 \begin{center}
   \includegraphics[width=0.6\linewidth]{laplace_posterior_contours.pdf}
@@ -214,7 +241,9 @@ p(\boldsymbol{\theta} \mid \mathcal{D}) \approx \mathcal{N}(\bm{\theta}; \bm{\mu
 
 \end{frame}
 
-\begin{frame}{Laplace Approximation of Posterior}
+
+
+\begin{frame}{Laplace Approximation in our Toy Example}
 
 \begin{center}
   \includegraphics[width=0.6\linewidth]{laplace_decision_boundaries.pdf}
