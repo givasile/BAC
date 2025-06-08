@@ -12,18 +12,18 @@ organized and presented in a coherent manner.
 
 The course is structured into 6 main modules:
 
-| Module    | Description                                      | Material                      | Exercises                        |
-|-----------|--------------------------------------------------|-------------------------------|----------------------------------|
-| Session 1 | Probabilistic modeling                           | [pdf](./session_1/theory.pdf) | [pdf](./session_1/exercises.pdf) |
-| Session 2 | Probabilities and Random Variables               | [pdf](./session_2/theory.pdf) | [pdf](./session_2/exercises.pdf) |
-| Session 3 | Bayesian modeling - Prior, Likelihood, Posterior | [pdf](./session_3/theory.pdf) | [pdf](./session_3/exercises.pdf) |
-| Session 4 | Bayesian Linear Regression                       | [pdf](./session_4/theory.pdf) | [pdf](./session_4/exercises.pdf) |
-| Session 5 | Bayesian Inference - Importance Sampling, MCMC   | [pdf](./session_5/theory.pdf) | [pdf](./session_5/exercises.pdf) |
-| Session 6 | Bayesian Modeling with R                         | [pdf](./session_6/theory.pdf) | [pdf](./session_6/exercises.pdf) |
+| Module    | Description                                                        | Material                      | Exercises                        |
+|-----------|--------------------------------------------------------------------|-------------------------------|----------------------------------|
+| Session 1 | Probabilistic Modeling and Reasoning                               | [pdf](./session_1/theory.pdf) | [pdf](./session_1/exercises.pdf) |
+| Session 2 | Probabilities and Random Variables                                 | [pdf](./session_2/theory.pdf) | [pdf](./session_2/exercises.pdf) |
+| Session 3 | Bayesian Modeling: A Unified Framework for Probabilistic Reasoning | [pdf](./session_3/theory.pdf) | [pdf](./session_3/exercises.pdf) |
+| Session 4 | Bayesian Linear Regression                                         | [pdf](./session_4/theory.pdf) | [pdf](./session_4/exercises.pdf) |
+| Session 5 | Bayesian Logistic Regression                                       | [pdf](./session_5/theory.pdf) | [pdf](./session_5/exercises.pdf) |
+| Session 6 | Bayesian Modeling with R                                           | [pdf](./session_6/theory.pdf) | [pdf](./session_6/exercises.pdf) |
 
 # Material
 
-This course is highly built upon the following open-source materials:
+This course is built upon the following open-source materials:
 
 - [MLPR Course - University of Edinburgh](https://mlpr.inf.ed.ac.uk/2024/): 
   The course is an amazing general introductory resource in Machine Learning. 

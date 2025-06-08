@@ -4,15 +4,16 @@
 \graphicspath{{./figures/}}
 
 \usetheme{Boadilla}
+\usecolortheme{seahorse}
 
-\title{Introduction to Probabilities}
+\title{Probabilistic Modeling and Reasoning}
+\subtitle{The Role of Uncertainty in Machine Learning}
+
 \author{Vasilis Gkolemis}
 \institute{ATHENA RC | HUA}
 \date{June 2025}
 
 \begin{document}
-
-
 
 \begin{frame}
   \titlepage
@@ -22,23 +23,68 @@
   Vasilis Gkolemis, 2025. Licensed under CC BY 4.0.
 \end{frame}
 
+% Automatically insert agenda slide at the start of each section
+\AtBeginSection[]{
+  \begin{frame}{Program}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
 \section{Course Overview}
 
-% one slide with the overview - six sessions (1 slide)
-
-% one slide per session - discuss the topics (6 slides)
-
-
-\begin{frame}{Helping Material}
+\begin{frame}{Course Overview}
   \begin{itemize}
+  \item \textbf{Session 1:} Probabilistic Modeling and Reasoning
+    \begin{itemize}
+    \item The Role of Uncertainty in Machine Learning
+    \item Probabilistic Modeling and Reasoning
+    \item Key Rules of Probability
+    \end{itemize}
+  \item \textbf{Session 2:} Probabilities and Random Variables
+    \begin{itemize}
+    \item Random Variables and Probability Distributions
+    \item Key properties: Expectation, Variance, Covariancea
+    \end{itemize}
+
+  \item \textbf{Session 3:} Bayesian Modeling: A Unified Framework
+    \begin{itemize}
+    \item Probabilistic vs. Statistical vs. Bayesian Modeling
+    \item Prior, Posterior, Likelihood, Predictive Posterior
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Course Overview (cont.)}
+  \begin{itemize}
+  \item \textbf{Session 4:} Bayesian Linear Regression
+    \begin{itemize}
+    \item Linear Regression as a Probabilistic Model
+    \item Exact Inference with Conjugate Priors
+\end{itemize}
+    \item \textbf{Session 5:} Bayesian Logistic Regression
+      \begin{itemize}
+      \item Logistic Regression as a Probabilistic Model
+      \item Approximate Inference: Laplace Approximation, Importance Sampling, MCMC
+      \end{itemize}
+    \item \textbf{Session 6:} TODO
+  \end{itemize}
+  \end{frame}
+
+
+% TODO: one slide per session - discuss the topics (6 slides)
+
+
+\begin{frame}{Material used in this course}
+  This course is highly inspired by the following material:
+  \begin{itemize}
+    \item \textbf{Probabilistic Modeling and Reasoning}: University of Edinburgh, School of Informatics,  \url{https://opencourse.inf.ed.ac.uk/pmr/course-material}
     \item \textbf{Mathematics of Machine Learning} \url{https://mml-book.github.io/}
+    \item \textbf{BayesRules book}: \url{https://bayesrulesbook.com/}
   \end{itemize}
 \end{frame}
 
 
 \section{The Role of Uncertainty in Machine Learning}
-
-\subsection{Some motivational examples}
 
 \begin{frame}{Variability}
 \begin{itemize}
@@ -231,7 +277,7 @@
 \end{itemize}
 \end{frame}
 
-\subsection{Probabilistic Modeling and Reasoning}
+\section{Probabilistic Modeling and Reasoning}
 
 \begin{frame}{Probabilistic Modeling and Reasoning}
   \begin{itemize}
@@ -267,7 +313,7 @@
 \end{itemize}
 \end{frame}
 
-\subsection{Key Rules of Probability}
+\section{Key Rules of Probability}
 
 \begin{frame}{Key Rules of Probability}
 \begin{itemize}
@@ -343,6 +389,13 @@
 \end{frame}
 
 \begin{frame}{Recap \& What's Next}
+  Session 2: Probabilities and Random Variables
+  \begin{itemize}
+    \item Sample Space and Events
+    \item Random Variables and Probability Distributions
+    \item Key properties: Expectation, Variance, Covariance
+    \item Approximate key properties with Monte Carlo methods
+  \end{itemize}
 \end{frame}
 
 
