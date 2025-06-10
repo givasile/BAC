@@ -28,7 +28,12 @@
 
 \begin{document}
 
-
+% Automatically insert agenda slide at the start of each section
+\AtBeginSection[]{
+  \begin{frame}{Program}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
 
 \begin{frame}
   \titlepage

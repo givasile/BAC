@@ -28,7 +28,20 @@
 
 \begin{document}
 
-\frame{\titlepage}
+% Automatically insert agenda slide at the start of each section
+\AtBeginSection[]{
+  \begin{frame}{Program}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{frame}
+  \titlepage
+  \vfill
+  \footnotesize
+  \textcopyright\
+  Vasilis Gkolemis, 2025. Licensed under CC BY 4.0.
+\end{frame}
 
 \begin{frame}{A Synthetic Dataset}
   \begin{itemize}

@@ -17,7 +17,12 @@
 
 \begin{document}
 
-
+% Automatically insert agenda slide at the start of each section
+\AtBeginSection[]{
+  \begin{frame}{Program}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
 
 \begin{frame}
   \titlepage
@@ -34,12 +39,17 @@
 
 \begin{frame}{Helping Material}
   \begin{itemize}
-    \item \textbf{Primer on Probabilistic Modeling} \url{https://www.inf.ed.ac.uk/teaching/courses/pmr/22-23/assets/notes/probabilistic-modelling-primer.pdf}
+  \item \textbf{Probabilistic Modeling and Reasoning (PMR) Course}
+    \url{https://www.inf.ed.ac.uk/teaching/courses/pmr/22-23/}
+  \item \textbf{Multivariate Statistics}\\
+    \url{https://11annah-s-teachings.github.io/}
+  \item \textbf{Primer on Probabilistic Modeling}
+    \url{https://www.inf.ed.ac.uk/teaching/courses/pmr/22-23/assets/notes/probabilistic-modelling-primer.pdf}
   \end{itemize}
 \end{frame}
 
 
-\section{Informal Introduction to Probability Theory}
+\section{Introduction to Probability Theory}
 
 \begin{frame}{}
     \begin{center}
@@ -725,20 +735,7 @@ If you add up many independent random outcomes,
 \textit{We will check that in the exercises later:}
 \end{frame}
 
-\section{Recap}
-
-\begin{frame}{Recap}
-  What have we learned so far?
-
-  \begin{itemize}
-  \item Distributions and Random Variables are fundamental to model phenomena involving uncertainty.
-  \item They are formally defined over a probability space, but we often do not need that formalism in practice; we start directly with a \textbf{distribution}.
-  \item The \textbf{expected value} (mean) and \textbf{variance} are key properties of distributions.
-  \item Sampling from a distribution is key for estimating the mean and variance.
-  \item Some probability distributions are particularly important in probability theory and statistics, e.g., The \textbf{Bernoulli}, \textbf{Poisson}, and \textbf{Gaussian}.
-  \end{itemize}
-  \vspace{0.5cm}
-\end{frame}
+\section{Recap \& What’s Next}
 
 \begin{frame}{Recap \& What’s Next}
 \textbf{So far, we've seen:}
@@ -753,8 +750,7 @@ If you add up many independent random outcomes,
 \begin{itemize}
   \item \textbf{Probabilistic Modeling:}
     \begin{itemize}
-      \item How to use distributions to model real-world phenomena.
-      \item Introducing \textit{parametric} families (e.g., Normal, Poisson).
+      \item How to use \textit{parametric} distributions to model real-world phenomena.
     \end{itemize}
   \item \textbf{Probabilistic Inference:}
     \begin{itemize}
@@ -763,10 +759,6 @@ If you add up many independent random outcomes,
       \item Using fitted models to make predictions, decisions, and analyses.
     \end{itemize}
 \end{itemize}
-
-\vspace{1em}
-\textit{Next time:} From theory to action — modeling, fitting, and applying distributions in machine learning.
 \end{frame}
-
 
 \end{document}
