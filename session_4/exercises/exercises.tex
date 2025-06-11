@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+\title{Bayesian Inference Exercises}
+\author{}
+\date{}
+
+\definecolor{lightgray}{gray}{0.95}
+
+\lstset{
+  backgroundcolor=\color{lightgray},
+  basicstyle=\ttfamily\small,
+  frame=single,
+  breaklines=true,
+  showstringspaces=false,
+  language=R,
+  captionpos=b
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Exercises}
+You are provided with a file named \texttt{exercises.R},
+which contains all the code we used for generating the example I showed you in the slides.
+However, there are some missing parts in the code,
+which are marked with the tag  \texttt{@exercise}.
+
+For example:
+\begin{lstlisting}[language=R, caption={Example of an exercise in the code}]
+  # @exercise: Complete the following function
+  # Sampled lines from prior:
+  # mean = 0, sigma = Sigma_prior
+  # @exercise
+  # prior_samples <- ...  # Sampled lines from prior, shape (30, 2)
+\end{lstlisting}
+You need to complete the code in the file \texttt{exercises.R} by filling in the missing parts.
+
+
+\end{document}
