@@ -19,7 +19,8 @@ The course is structured into 6 main modules:
 | Session 3 | Bayesian Modeling                  | [pdf](./session_3/theory/theory.pdf) | [pdf](./session_3/exercises/exercises.pdf) |
 | Session 4 | Bayesian Linear Regression         | [pdf](./session_4/theory/theory.pdf) | [pdf](./session_4/exercises/exercises.pdf) |
 | Session 5 | Bayesian Logistic Regression       | [pdf](./session_5/theory/theory.pdf) | [pdf](./session_5/exercises/exercises.pdf) |
-| Session 6 | Bayesian Modeling with R           | [pdf](./session_6/theory/theory.pdf) | [pdf](./session_6/exercises/exercises.pdf) |
+| Session 6 | Bayesian Inference on a Real Case  | TO BE ADDED LATER                    | TO BE ADDED LATER                          |
+
 
 
 # Course Description
