@@ -316,3 +316,8 @@ TSWLatexianTemp*
 *.Rout
 *.Rhistory
 *.RData
+.Rproj.user
+BAC.Rproj
+
+# solutions
+solutions/

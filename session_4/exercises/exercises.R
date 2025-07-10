@@ -12,7 +12,7 @@ n <- 100  # Number of data points
 sigma <- 1  # Standard deviation of data noise
 w_true <- 2 # True slope
 b_true <- -1 # True intercept
-save_figures <- FALSE  # Whether to save figures
+save_figures <- TRUE  # Whether to save figures
 print_figures <- TRUE  # Whether to print figures
 
 # ---- Part 1: Generate synthetic data ----
@@ -47,7 +47,7 @@ if (print_figures) {
 }
 
 if (save_figures) {
-  ggsave(filename = "figures/data_plot.pdf", plot = p, width = 6, height = 4, dpi = 300)
+  ggsave(filename = "session_4/theory/figures/data_plot.pdf", plot = p, width = 6, height = 4, dpi = 300)
 }
 
 # ---- Part 2: Prior distributions ----
@@ -65,7 +65,7 @@ for (i in seq_along(prior_sds)) {
 
   # @exercise
   # dens_vals <- ...  # Normal density values for x_vals, mean = 0, sd = sd_val
-  
+
   p <- ggplot(data.frame(x = x_vals, y = dens_vals), aes(x = x, y = y)) +
     geom_line(color = "blue", size = 1) +
     geom_point(aes(x = w_true, y = 0), color = "red", size = 4) +
@@ -76,8 +76,8 @@ for (i in seq_along(prior_sds)) {
          x = "Parameter value",
          y = "Density") +
     theme_minimal()
-  
-  filename <- paste0("figures/prior_hist_", i, ".pdf")
+
+  filename <- paste0("session_4/theory/figures/prior_hist_", i, ".pdf")
   ggsave(filename = filename, plot = p, width = 6, height = 4)
 }
 
@@ -102,12 +102,12 @@ truth_df <- data.frame(
 
 for (i in seq_along(prior_sds)) {
   sd_val <- prior_sds[i]
-  
+
   # Sample from prior
   # @exercise
   # w_samples <- ...  # Sampled slopes, shape (n_samples,)
   # b_samples <- ...  # Sampled intercepts, shape (n_samples,)
-  
+
   # Build data frame with all sampled lines
   lines_df <- do.call(rbind, lapply(1:n_samples, function(j) {
     data.frame(
@@ -116,7 +116,7 @@ for (i in seq_along(prior_sds)) {
       sample = factor(j)
     )
   }))
-  
+
   # Create the plot
   p <- ggplot() +
     geom_line(data = lines_df, aes(x = x, y = y, group = sample),
@@ -126,13 +126,13 @@ for (i in seq_along(prior_sds)) {
          x = "x",
          y = "y") +
     theme_minimal()
-  
+
   # Save the plot as PDF
   if (print_figures) {
     print(p)
   }
   if (save_figures) {
-    filename <- paste0("figures/prior_lines_", i, ".pdf")
+    filename <- paste0("session_4/theory/figures/prior_lines_", i, ".pdf")
     ggsave(filename = filename, plot = p, width = 6, height = 4)
     }
 }
@@ -142,7 +142,7 @@ infer_and_plot_posterior <- function(x, y, w_true, b_true, prior_sd, i, prefix =
   sigma_noise <- 1
   X <- cbind(1, x)
   x_line <- seq(-3, 3, length.out = 100)
-  
+
   # Prior and posterior
   Sigma_prior <- diag(prior_sd^2, 2)
 
@@ -168,13 +168,13 @@ infer_and_plot_posterior <- function(x, y, w_true, b_true, prior_sd, i, prefix =
   # y: y
   # @exercise
   # mu_post <- ...  # Posterior mean vector, shape (2,)
-  
+
   ## --- Contour plot of posterior ---
   beta0_seq <- seq(-5, 5, length.out = 100)
   w_seq <- seq(-5, 5, length.out = 100)
   grid <- expand.grid(beta0 = beta0_seq, w = w_seq)
   grid$dens <- dmvnorm(grid, mean = as.vector(mu_post), sigma = Sigma_post)
-  
+
   p_contour <- ggplot(grid, aes(x = beta0, y = w, z = dens)) +
     geom_contour(color = "blue") +
     geom_point(aes(x = b_true, y = w_true), color = "red", size = 3) +
@@ -184,13 +184,13 @@ infer_and_plot_posterior <- function(x, y, w_true, b_true, prior_sd, i, prefix =
     ) +
     xlim(-1.5, -0.5) + ylim(1.5, 2.5) +
     theme_minimal()
-  
+
   ggsave(
-    filename = sprintf("figures/posterior_contour%s%d.pdf", prefix, i),
+    filename = sprintf("session_4/theory/figures/posterior_contour%s%d.pdf", prefix, i),
     plot = p_contour,
     width = 6, height = 4
   )
-  
+
   ## --- Plot lines sampled from prior and posterior ---
   make_lines_df <- function(samples, label) {
     do.call(rbind, lapply(1:nrow(samples), function(j) {
@@ -214,13 +214,13 @@ infer_and_plot_posterior <- function(x, y, w_true, b_true, prior_sd, i, prefix =
   # mean = mu_post, sigma = Sigma_post
   # @exercise
   # post_samples <- ...  # Sampled lines from posterior, shape (30, 2)
-  
+
   df_lines <- rbind(
     make_lines_df(prior_samples, "prior"),
     make_lines_df(post_samples, "posterior")
   )
   df_true <- data.frame(x = x_line, y = b_true + w_true * x_line)
-  
+
   p_lines <- ggplot() +
     geom_line(data = df_lines[df_lines$type == "prior", ], aes(x = x, y = y, group = sample),
               color = "gray", alpha = 0.4) +
@@ -233,9 +233,9 @@ infer_and_plot_posterior <- function(x, y, w_true, b_true, prior_sd, i, prefix =
     ) +
     ylim(-15, 15) +
     theme_minimal()
-  
+
   ggsave(
-    filename = sprintf("figures/posterior_lines%s%d.pdf", prefix, i),
+    filename = sprintf("session_4/theory/figures/posterior_lines%s%d.pdf", prefix, i),
     plot = p_lines,
     width = 6, height = 4
   )

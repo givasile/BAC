@@ -46,7 +46,7 @@ p <- ggplot(df, aes(x = x1, y = x2, color = y)) +
 
 print(p)
 # Save to PDF
-ggsave("figures/generated_dataset.pdf", plot = p)
+ggsave("session_5/theory/figures/generated_dataset.pdf", plot = p)
 
 
 # Laplace approxiamtion
@@ -62,16 +62,13 @@ fit_bayesian_logistic_laplace <- function(X, y, alpha = 1.0) {
   # Sigmoid function
   sigmoid <- function(z) 1 / (1 + exp(-z))
   
-  # Log prior (Gaussian zero-mean)
-  log_prior <- function(w) {
-    -0.5 * alpha * sum(w^2)
-  }
+  # # Log prior (Gaussian zero-mean)
+  # @exercise
+  # log_prior <- function(w) {...} # define log prior here
   
   # Log likelihood for logistic regression
-  log_likelihood <- function(w) {
-    eta <- X %*% w
-    sum(y * eta - log(1 + exp(eta)))
-  }
+  # @exercise
+  # log_likelihood <- function(w) {...} # define log likelihood here
   
   # Negative log posterior (to minimize)
   neg_log_post <- function(w) {
@@ -79,6 +76,8 @@ fit_bayesian_logistic_laplace <- function(X, y, alpha = 1.0) {
   }
   
   # Optimize to find MAP estimate
+  # @exercise
+  # opt <- optim() to find the MAP estimate of w, check the documentation for optim() 
   opt <- optim(
     par = rep(0, d),  # init at zero
     fn = neg_log_post,
@@ -86,13 +85,9 @@ fit_bayesian_logistic_laplace <- function(X, y, alpha = 1.0) {
     hessian = TRUE
   )
   
-  w_map <- opt$par
-  
-  # Compute Hessian of negative log posterior at MAP
-  hess <- hessian(neg_log_post, w_map)
-  
   # Covariance of Gaussian approx = inverse Hessian
-  Sigma <- solve(hess)
+  # @exercise
+  # Sigma <- ... # compute covariance matrix = inverse Hessian
   
   list(mean = w_map, cov = Sigma)
 }
@@ -172,17 +167,16 @@ result <- fit_bayesian_logistic_laplace(X, y, alpha=1)
 
 p1 <- plot_laplace_posterior(result$mean, result$cov)
 print(p1)
-ggsave("figures/laplace_posterior_contours.pdf", p1, width = 6, height = 6)
+ggsave("session_5/theory/figures/laplace_posterior_contours.pdf", p1, width = 6, height = 6)
 
 p2 <- plot_decision_boundaries(X, y, result$mean, result$cov)
 print(p2)
-ggsave("figures/laplace_decision_boundaries.pdf", p2, width = 6, height = 6)
+ggsave("session_5/theory/figures/laplace_decision_boundaries.pdf", p2, width = 6, height = 6)
 
 # Arrange side-by-side
 
 
-
-##########  Part 2
+##########  Part 2 - Importance Sampling
 # Creating R code that defines two importance sampling functions:
 # (1) using the prior as proposal
 # (2) using the Laplace approximation as proposal
@@ -208,20 +202,20 @@ importance_sampling_prior <- function(X, y, n_samples = 100, n_keep = 30, alpha 
   d <- ncol(X)
   
   # Sample from prior: theta ~ N(0, alpha^-1 * I)
-  prior_sd <- 1 / sqrt(alpha)
-  all_samples <- matrix(rnorm(n_samples * d, mean = 0, sd = prior_sd), nrow = n_samples)
+  # @exercise
+  # all_samples <- ... # sample n_samples from prior here
   
   # Compute unnormalized log weights
-  log_weights <- apply(all_samples, 1, function(theta) log_posterior(theta, X, y, alpha))
+  # @exercise
+  # log_weights <- ... # compute log posterior for each sample
   
-  # Normalize weights
-  log_weights <- log_weights - max(log_weights)  # for stability
-  weights <- exp(log_weights)
-  weights <- weights / sum(weights)
+  # Find importance weights
+  # @exercise
+  # weights <- ... # compute normalized weights from log_weights
   
   # Resample 30 samples according to the importance weights
-  selected_indices <- sample(1:n_samples, size = n_keep, replace = FALSE, prob = weights)
-  selected_samples <- all_samples[selected_indices, ]
+  # @exercise
+  # selected_samples <- ... # resample n_keep samples based on weights
   
   return(list(samples = selected_samples, weights = weights[selected_indices]))
 }
@@ -280,7 +274,7 @@ plot_decision_boundaries_2 <- function(samples, X, y, n_samples = 15) {
 p <- plot_decision_boundaries_2(samples_prior, X, y, n_samples = 30)
 
 print(p)
-ggsave("figures/importance_sampling_from_prior.pdf", p, width = 6, height = 6)
+ggsave("session_5/theory/figures/importance_sampling_from_prior.pdf", p, width = 6, height = 6)
 
 importance_sampling_laplace <- function(X, y, mean, cov, n_samples = 300, n_keep = 30, alpha = 1.0) {
   d <- ncol(X)
@@ -325,11 +319,11 @@ head(weights_laplace)
 p <- plot_decision_boundaries_2(samples_laplace, X, y, n_samples = 30)
 print(p)
 
-ggsave("figures/importance_sampling_from_laplace.pdf", p, width = 6, height = 6)
+ggsave("session_5/theory/figures/importance_sampling_from_laplace.pdf", p, width = 6, height = 6)
 
 
 
-#################### Part 3
+#################### Part 3 - MCMC Sampling
 
 
 library(MASS)  # for mvrnorm
@@ -358,12 +352,20 @@ mcmc_logistic <- function(X, y, n_samples = 1000, burn_in = 200, thin = 1,
   current_log_post <- log_posterior(current, X, y, alpha)
   
   for (i in 1:(n_samples * thin + burn_in)) {
+  
     # Propose new sample from Gaussian random walk
-    proposal <- current + rnorm(d, mean = 0, sd = step_size)
-    proposal_log_post <- log_posterior(proposal, X, y, alpha)
+    # @exercise
+    # proposal <- ... # propose new sample here
+
+    # Compute log posterior for proposal
+    # @exercise
+    # proposal_log_post <- ... # compute log posterior for proposal
     
     # Acceptance probability
-    log_accept_ratio <- proposal_log_post - current_log_post
+    # @exercise
+    # log_accept_ratio <- ... # compute log acceptance ratio
+
+    # Accept or reject the proposal
     if (log(runif(1)) < log_accept_ratio) {
       current <- proposal
       current_log_post <- proposal_log_post
@@ -384,5 +386,5 @@ samples_mcmc <- mcmc_logistic(X, y, n_samples = 5000, burn_in = 1000, thin = 10)
 
 p <- plot_decision_boundaries_2(samples_mcmc, X, y, n_samples = 30)
 print(p)
-ggsave("figures/mcmc.pdf", p, width = 6, height = 6)
+ggsave("session_5/theory/figures/mcmc.pdf", p, width = 6, height = 6)
 

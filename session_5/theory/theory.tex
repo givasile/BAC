@@ -6,7 +6,6 @@
 
 \usepackage{graphicx}
 \usepackage{tikz}
-\graphicspath{{./code/figures/}}
 \usepackage{hyperref}
 \hypersetup{
   colorlinks=true,
@@ -87,7 +86,7 @@
 
 \vspace{0.5em}
 \begin{center}
-  \includegraphics[width=0.6\linewidth]{generated_dataset.pdf}
+  \includegraphics[width=0.6\linewidth]{figures/generated_dataset.pdf}
 \end{center}
 \end{frame}
 
@@ -250,7 +249,7 @@ p(\boldsymbol{\theta} \mid \mathcal{D}) \propto p(\mathcal{D} \mid \boldsymbol{\
 \begin{frame}{Laplace Approximation in our Toy Example}
 
 \begin{center}
-  \includegraphics[width=0.6\linewidth]{laplace_posterior_contours.pdf}
+  \includegraphics[width=0.6\linewidth]{figures/laplace_posterior_contours.pdf}
 \end{center}
 
 \end{frame}
@@ -260,7 +259,7 @@ p(\boldsymbol{\theta} \mid \mathcal{D}) \propto p(\mathcal{D} \mid \boldsymbol{\
 \begin{frame}{Laplace Approximation in our Toy Example}
 
 \begin{center}
-  \includegraphics[width=0.6\linewidth]{laplace_decision_boundaries.pdf}
+  \includegraphics[width=0.6\linewidth]{figures/laplace_decision_boundaries.pdf}
 \end{center}
 
 \end{frame}
@@ -314,7 +313,7 @@ w_i = \frac{p(y | X, \theta_i) p(\theta_i)}{q(\theta_i)}.
 \begin{columns}
   \column{0.5\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{importance_sampling_from_prior.pdf}
+  \includegraphics[width=\textwidth]{figures/importance_sampling_from_prior.pdf}
 
   \column{0.5\textwidth}
   \small
@@ -331,7 +330,7 @@ w_i = \frac{p(y | X, \theta_i) p(\theta_i)}{q(\theta_i)}.
 \begin{columns}
   \column{0.5\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{importance_sampling_from_laplace.pdf}
+  \includegraphics[width=\textwidth]{figures/importance_sampling_from_laplace.pdf}
 
   \column{0.5\textwidth}
   \small
@@ -393,7 +392,7 @@ w_i = \frac{p(y | X, \theta_i) p(\theta_i)}{q(\theta_i)}.
 \begin{frame}{MCMC Samples: Decision Boundaries from Posterior}
   \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{mcmc.pdf}
+    \includegraphics[width=0.7\textwidth]{figures/mcmc.pdf}
     \caption{Decision boundaries drawn from 30 MCMC posterior samples of \(\theta = (w_1, w_2)\).}
   \end{figure}
 \end{frame}
