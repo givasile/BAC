@@ -42,39 +42,18 @@
 
     \only<2->{Be able to apply \textcolor{blue}{Bayesian} models to real-world problems.}
   \end{block}
-
-  \vspace{2em}
-  \only<3>{
-    Let's be more specific:
-      \begin{itemize}
-        \item Work with probabilities and random variables
-        \item Approach data analysis through probabilistic modeling and reasoning
-        \item Bayesian vs. other probabilistic approaches
-        \item Perform Bayesian inference:
-          \begin{itemize}
-            \item Exact: conjugate priors
-            \item Approximate: Laplace approximation, importance sampling, MCMC
-          \end{itemize}
-        \item Solve regression and classification problems using Bayesian models:
-          \begin{itemize}
-            \item Bayesian linear regression (regression)
-            \item Bayesian logistic regression (classification)
-          \end{itemize}
-        \item Apply them to real-world problems using R
-        \end{itemize}
-  }
 \end{frame}
 
 \begin{frame}{Course Overview}
   \begin{block}{Course structure}
     \begin{itemize}
-      \item 6 sessions, each 1.5 hours long
+      \item 6 sessions $\times$ 1.5 hours
       \item Each session consists of:
         \begin{itemize}
           \item Lecture (45') --- 30' lecture + 15' discussion
           \item Exercises (45') --- 20' you work on exercises, 25' discussion
             \begin{itemize}
-            \item Either pen-and-paper exercises or R exercises
+            \item Either pen-and-paper or in R
               \end{itemize}
         \end{itemize}
       \end{itemize}
@@ -98,8 +77,7 @@
     \end{itemize}
   \end{block}
 }
-\vspace{2em}
-
+\vspace{1em}
   \only<1>{
   \begin{itemize}
   \item \textbf{Session 1:} Probabilistic Modeling and Reasoning
@@ -111,7 +89,7 @@
   \item \textbf{Session 2:} Probabilities and Random Variables
     \begin{itemize}
     \item Random Variables and Probability Distributions
-    \item Key properties: Expectation, Variance, Covariancea
+    \item Key properties: Expectation, Variance, Covariance
     \end{itemize}
 
   \item \textbf{Session 3:} Bayesian Modeling: A Unified Framework
@@ -131,9 +109,19 @@
     \item \textbf{Session 5:} Bayesian Logistic Regression
       \begin{itemize}
       \item Logistic Regression as a Probabilistic Model
-      \item Approximate Inference: Laplace Approximation, Importance Sampling, MCMC
+      \item Approximate Inference:
+        \begin{itemize}
+        \item Laplace Approximation
+        \item Importance Sampling
+        \item MCMC
+        \end{itemize}
+
       \end{itemize}
-    \item \textbf{Session 6:} TODO
+    \item \textbf{Session 6:} Real-world problem
+      \begin{itemize}
+      \item Summary of all concepts
+      \item Application on a real-world problem
+      \end{itemize}
   \end{itemize}
 }
 \end{frame}
@@ -191,11 +179,11 @@
 
 \begin{frame}{Example: Screening and Diagnostic Tests}
 \begin{itemize}
-  \item Early warning test for Alzheimer’s disease (Scharre, 2010, 2014).
-  \item Detects “mild cognitive impairment”.
-  \item Takes 10–15 minutes.
-  \item Freely available.
-  \item Assume a 70-year-old man tests positive.
+  \item Early warning test for Alzheimer’s disease (Scharre, 2010, 2014)
+  \item Detects `mild cognitive impairment'
+  \item Takes 10–15 minutes
+  \item Freely available
+  \item Assume a 70-year-old man tests positive
   \item Should he be concerned?
 \end{itemize}
 \begin{center}
@@ -445,7 +433,7 @@
 
     \item \textbf{Probabilistic Reasoning (Inference):}
     \begin{itemize}
-    \item Infer probabilites of unobserved events from observed data.
+    \item Infer probabilities of unobserved events from observed data.
     \end{itemize}
 
     \item \textbf{Bayesian Analysis:}

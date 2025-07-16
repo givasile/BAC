@@ -66,20 +66,6 @@ The realm of probability theory!}}
 \end{minipage}
 \end{frame}
 
-\begin{frame}{}
-    \begin{center}
-        \textcolor{blue}{\textbf{\Large{QUESTION:}}}\bigskip\\
-
-        \emph{\Large What is your understanding of the term "probability"?}
-    \end{center}
-  \end{frame}
-
-\begin{frame}{}
-\begin{center}
-        \includegraphics[height=.9\paperheight]{figures/frequentists_vs_bayesians.png}
-\end{center}
-\end{frame}
-
 % Slide 1 - Probability
 \begin{frame}{What is Probability?}
 \begin{itemize}
@@ -291,31 +277,32 @@ P(X = x)
 
 \section{Properties of a Probability Distribution}
 
-\begin{frame}{What Can We Do With a Distribution?}
+\begin{frame}{Distribution Properties}
 
-A probability distribution allows us to:
-
-\vspace{1em}
 \begin{enumerate}
-  \item \textbf{Define a probability density function (PDF)} or a \textbf{probability mass function (PMF)}.
-  \begin{itemize}
-    \item Gives the relative likelihood of each outcome.
+  \item \textbf{Probability Density Function (PDF)} or \textbf{Probability Mass Function (PMF)}.
+    \begin{itemize}
+    \item $f(x) = P(X = x)$ for discrete variables (PMF)
+    \item $f(x) = P(a \leq X \leq b)$ for continuous variables (PDF)
   \end{itemize}
 
-  \item \textbf{Define a cumulative distribution function (CDF).}
+  \item \textbf{Cumulative distribution function (CDF)}
   \begin{itemize}
-    \item $F(x) = P(X \leq x)$, accumulates probability up to $x$.
+    \item $F(x) = P(X \leq x)$
   \end{itemize}
 
-  \item \textbf{Summarize properties of the distribution.}
+  \item \textbf{Important Summary Statistics}
   \begin{itemize}
-    \item Most important: \textbf{expected value (mean)} and \textbf{variance (spread)}.
-    \item Also: skewness, kurtosis, entropy, etc.
+  \item \textbf{Expected value (mean)}: $\mathbb{E}[X]$
+  \item \textbf{Variance (spread)}: $\text{Var}(X)$
+  \item \textbf{Standard deviation}: $\sigma = \sqrt{\text{Var}(X)}$
+  \item Also: skewness, kurtosis, entropy, etc.
   \end{itemize}
 
-  \item \textbf{Sample from the distribution.}
+  \item \textbf{Sampling}
   \begin{itemize}
-    \item Generate artificial data consistent with the modeled uncertainty.
+  \item Generating random samples from a distribution
+    \item Allows us to approximate properties of the distribution
   \end{itemize}
 \end{enumerate}
 
@@ -326,23 +313,29 @@ A probability distribution allows us to:
 \begin{frame}{PMF and PDF}
 
 \textbf{Probability Mass Function (PMF) -- Discrete Random Variables:}
+
 \[
-P(X = x) = p(x)
+  \boxed{p(x)} = P(X = x)
 \]
+
 \begin{itemize}
-  \item Gives the probability that the random variable equals a specific value.
-  \item Probabilities add up over all possible values and sum to 1.
+  \item The probability that a random variable $X$ equals $x$
+  \item Sum to 1: \(\sum_{x} p(x) = 1\)
 \end{itemize}
 
 \vspace{1em}
 
 \textbf{Probability Density Function (PDF) -- Cont. Random Variables:}
+
 \[
-P(a \leq X \leq b) = \int_a^b p(x) \, dx
+P(a \leq X \leq b) = \int_a^b \boxed{p(x)} \, dx
 \]
+
 \begin{itemize}
-  \item Gives the \textit{density} of the random variable around a point; probabilities come from areas under the curve.
-  \item The value at a single point is not a probability (can be $>1$).
+  \item The probability that a random variable $X$ falls within $[a, b]$
+  \item PDF is the \textit{density}; probabilities result from integrating over intervals
+  \item The value at a single point is not a probability ($p(x)$ can be $>1$)
+  \item Sum to 1 over the entire space: \(\int_{-\infty}^{\infty} p(x) \, dx = 1\)
 \end{itemize}
 
 \end{frame}
@@ -351,47 +344,59 @@ P(a \leq X \leq b) = \int_a^b p(x) \, dx
 \begin{frame}{Cumulative Distribution Function (CDF)}
 
 \textbf{Cumulative Distribution Function (CDF):}
+
 \[
 F(x) = P(X \leq x)
 \]
-\begin{itemize}
-  \item Gives the probability that the random variable takes a value less than or equal to $x$.
-  \item For discrete variables: a step function; for continuous variables: a smooth, increasing curve.
-\end{itemize}
 
-\vspace{1em}
-
-\textbf{Properties:}
 \begin{itemize}
-  \item $F(x)$ is non-decreasing and satisfies: $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to +\infty} F(x) = 1$.
-  \item For continuous variables: $p(x) = \frac{d}{dx} F(x)$.
+  \item The probability $X$ is less than or equal to $x$.
+  \item For discrete variables: $F(x) = \sum_{a \leq x} p(a)$
+    \begin{itemize}
+    \item Step function; increases at each outcome
+    \end{itemize}
+  \item For continuous variables: $F(x) = \int_{-\infty}^{x} p(t) \, dt$
+    \begin{itemize}
+    \item Smooth function; area under the PDF curve up to $x$
+    \end{itemize}
+  \item $F(x)$ is non-decreasing: if $x_1 < x_2$, then $F(x_1) \leq F(x_2)$
+  \item $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to +\infty} F(x) = 1$
+  \item For continuous variables: $\boxed{p(x) = \frac{d}{dx} F(x)}$
+  \item For discrete variables: $p(x) = F(x) - F(\alpha)$, where $\alpha$ is the largest value less than $x$.
 \end{itemize}
 
 \end{frame}
 
-\subsection{Expected Value}
-\begin{frame}{Expectation}
-\textbf{Expectation} is a property of a probability distribution, representing a probability-weighted average.
+
+\begin{frame}{Expected Value}
+
+The \textbf{expected value}, $\mu = \mathbb{E}[X]$, is the average value of a random variable $X$ over its distribution --- the mean of the distribution.
 
 \vspace{1em}
 \textbf{Definition:} For a function $f$ of an outcome $x$,
 
 \begin{center}
-\begin{tabular}{cc}
+\begin{tabular}{lc}
 \textbf{Discrete:} & \textbf{Continuous:} \\
-$\displaystyle \mathbb{E}[f(x)] = \sum_{i=1}^{I} p_i f(a_i)$ &
-$\displaystyle \mathbb{E}[f(x)] = \int_{-\infty}^{\infty} f(x) \, p(x) \, dx$
+$\displaystyle \mathbb{E}[x] = \sum_{i=1}^{I} p_i a_i$ &
+$\displaystyle \mathbb{E}[f(x)] = \int_{-\infty}^{\infty} x \, p(x) \, dx$
 \end{tabular}
 \end{center}
 
-\vspace{1em}
+\textbf{Examples:}
 \begin{itemize}
-  \item Subscript $P(x)$ often dropped when context is clear.
-  \item Notation variants: $\mathbb{E}[f]$, $\mathcal{E}[f]$, $\langle f \rangle$.
-  \item If $f(x) = x$, then $\mathbb{E}[x]$ is the \textbf{mean}.
+\item \textbf{Six-sided die:}
+  \begin{itemize}
+  \item $\mathbb{E}[x] = \frac{1}{6}(1 + 2 + 3 + 4 + 5 + 6) = 3.5$
+  \item Note: not an actual outcome, but a statistical average
+  \end{itemize}
+\item \textbf{Bernoulli trial (1 with probability $p$):}
+  \begin{itemize}
+  \item $\mathbb{E}[x] = p \cdot 1 + (1 - p) \cdot 0 = p$
+  \end{itemize}
 \end{itemize}
-\end{frame}
 
+\end{frame}
 
 \begin{frame}{Properties of Expectations}
 \textbf{1. Linearity:}
@@ -404,7 +409,6 @@ $\displaystyle \mathbb{E}[f(x)] = \int_{-\infty}^{\infty} f(x) \, p(x) \, dx$
 \[
 \mathbb{E}[c] = c \sum_{i=1}^{I} p_i = c
 \]
-Because probabilities sum to one.
 
 \textbf{3. Independence Rule:}
 \[
@@ -416,41 +420,11 @@ If $x$ and $y$ are independent.
 \textit{Exercise: Prove the independence rule.}
 \end{frame}
 
-
-\begin{frame}{The Mean (Expected Value)}
-\textbf{The mean} of a distribution is the \textit{expected value} of numerical outcomes:
-\[
-\mu = \mathbb{E}[x] = \sum_{i=1}^{I} p_i a_i
-\]
-
-\vspace{1em}
-\textbf{Examples:}
-\begin{itemize}
-  \item \textbf{Six-sided die:}
-  \[
-  \mathbb{E}[x] = \frac{1}{6}(1 + 2 + 3 + 4 + 5 + 6) = 3.5
-  \]
-  (Note: not an actual outcome, but a statistical average.)
-
-  \item \textbf{Bernoulli trial (1 with probability $p$):}
-  \[
-  \mathbb{E}[x] = p \cdot 1 + (1 - p) \cdot 0 = p
-  \]
-\end{itemize}
-
-\vspace{1em}
-\textbf{Change of units:} If $x$ is in metres and we want cm:
-\[
-\mathbb{E}[100x] = 100 \, \mathbb{E}[x]
-\]
-\end{frame}
-
-
 \subsection{Variance}
 \begin{frame}{The Variance}
-\textbf{Variance} measures the average squared distance from the mean:
+The \textbf{Variance} measures the spread of a random variable $x$ around its mean $\mu$.
 \[
-\text{var}[x] = \sigma^2 = \mathbb{E}\left[(x - \mu)^2\right] = \mathbb{E}[x^2] - \mathbb{E}[x]^2
+\text{Var}[x] = \sigma^2 = \mathbb{E}\left[(x - \mu)^2\right] = \mathbb{E}[x^2] - \mathbb{E}[x]^2
 \]
 where $\mu = \mathbb{E}[x]$ is the mean.
 
@@ -464,49 +438,31 @@ where $\mu = \mathbb{E}[x]$ is the mean.
 
 \vspace{0.5em}
 \textbf{Standard deviation:} $\sigma = \sqrt{\text{var}[x]}$
-Same units as $x$, often used as a measure of spread.
-\end{frame}
-
-\begin{frame}{Variance: Change of Units and Normalization}
-\textbf{Change of Units:}
 \begin{itemize}
-  \item If $x$ is in metres, then $x^2$ is in $\text{m}^2$.
-  \item Variance changes with units: \\
-  $\text{var}[100x] = 100^2 \, \text{var}[x]$
+\item \textbf{Standard deviation} has the same units as $x$.
+\item \textit{Variance has different units from $x$, so not easily interpretable.}
 \end{itemize}
-
-\vspace{1em}
-\textbf{Normalization:}
-\begin{itemize}
-  \item Given mean $\mu$ and variance $\sigma^2$, to normalize $x$: \\
-    \[
-    x_{\text{norm}} = \frac{x - \mu}{\sigma} \quad \Rightarrow \quad \mathbb{E}[x_{\text{norm}}] = 0, \quad \text{var}[x_{\text{norm}}] = 1
-    \]
-\end{itemize}
-
-\textit{Note: Variance has different units from $x$, so it's not always directly interpretable.}
 \end{frame}
 
 \subsection{Sampling}
 
 \begin{frame}{Sampling from a Distribution}
-\textbf{Sampling} means generating random values that follow a given probability distribution.
 
-\vspace{1em}
-\textbf{Notation:} If $x$ is a random variable sampled from distribution $P$, we write:
+  \textbf{Sampling} means generating random values $\{x_1, x_2, \ldots, x_N\}$ from a distribution $p$:
+
 \[
-x \sim P
+x_i \sim p(x), \quad i = 1, 2, \ldots, N
 \]
 
-\vspace{1em}
 \textbf{Key Points:}
 \begin{itemize}
-  \item Some distributions are easy to sample from (e.g., Bernoulli, Gaussian), others require advanced methods.
   \item Sampling allows to \textit{easily} approximate important properties of the distribution:
     \begin{itemize}
       \item Mean: $\mathbb{E}[x] \approx \frac{1}{N} \sum_{i=1}^{N} x_i$ for $N$ samples.
       \item Variance: $\text{var}[x] \approx \frac{1}{N-1} \sum_{i=1}^{N} (x_i - \mathbb{E}[x])^2$.
       \end{itemize}
+    \item Some distributions are easy to sample from (e.g., Bernoulli, Gaussian)
+    \item others require advanced methods.
       \end{itemize}
 \end{frame}
 
@@ -516,9 +472,10 @@ x \sim P
 \subsection{Bernoulli distribution}
 
 \begin{frame}{Bernoulli Distribution}
-  \textbf{Definition:} Models a procedure with two outcomes: success (1) an failure (0).
-  \textbf{Example: Coin toss}: Toss a biased coin with probability \(p=0.7\) of landing heads (success).
-  \vspace{0.5em}
+  \textbf{Definition:} Models procedures with two outcomes: success (1), failure (0)
+
+  \textbf{Example:} Toss a biased coin with \(p=0.7\) of landing heads (success):
+
   \[
     X \sim \text{Bernoulli}(p), \quad P(X=1) = p, \quad P(X=0) = 1-p
   \]
@@ -527,8 +484,8 @@ x \sim P
     \begin{column}{0.48\textwidth}
       \textbf{Properties:}
       \begin{itemize}
-        \item Mean: \( \mathbb{E}[X] = p = 0.7 \)
-        \item Variance: \( \mathrm{Var}(X) = p(1-p) = 0.21 \)
+        \item \( \mathbb{E}[X] = p = 0.7 \)
+        \item \( \mathrm{Var}(X) = p(1-p) = 0.21 \)
       \end{itemize}
     \end{column}
 
@@ -554,8 +511,10 @@ x \sim P
 
 \subsection{Poisson distribution}
 \begin{frame}{Poisson Distribution}
-  \textbf{Definition:} Models the number of events in a fixed interval of time or space, given the events occur independently and at a constant average rate \(\lambda\). Example: Number of emails received per hour
-  \vspace{0.5em}
+  \textbf{Definition:} Models the number of events in a time interval, given the events occur independently and at an average rate \(\lambda\).
+
+  \textbf{Example:} Number of emails received per hour
+
   \[
     X \sim \text{Poisson}(\lambda), \quad P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}, \quad k = 0,1,2,...
   \]
@@ -564,7 +523,7 @@ x \sim P
     \begin{column}{0.48\textwidth}
       \textbf{Properties:}
       \begin{itemize}
-      \item Mean and variance: \( \mathbb{E}[X] = \mathrm{Var}(X) = \lambda = 3 \), expected number of emails per hour.
+      \item \( \mathbb{E}[X] = \mathrm{Var}(X) = \lambda = 3 \), expected number of emails per hour.
       \item Probability of receiving \(k\) emails in an hour:
         \(
         P(X=k) = \frac{3^k e^{-3}}{k!}
@@ -620,26 +579,32 @@ x \sim P
   \item Symmetric around $\mu$
   \item Mean: $\mathbb{E}[x] = \mu$
   \item Variance: $\text{var}[x] = \sigma^2$
+  \item A Sum of independent Gaussians is Gaussian
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Univariate Gaussian: Example and Additional Properties}
-\textbf{Example:}
-\begin{itemize}
-  \item Let $x \sim \mathcal{N}(3, 4)$
-  \item Then:
-    \[
-    \mathbb{E}[x] = 3 \qquad \text{var}[x] = 4 \qquad \text{std}[x] = \sqrt{4} = 2
-    \]
-\end{itemize}
+\begin{frame}{Univariate Gaussian}
 
-\vspace{0.5em}
-\textbf{Additional Properties:}
-\begin{itemize}
-  \item Linear transformation: If $y = a x + b$, then \\
-    $y \sim \mathcal{N}(a\mu + b, a^2\sigma^2)$
-  \item Sums of independent Gaussians are Gaussian.
-\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    width=10cm,
+    height=6cm,
+    domain=-4:4,
+    samples=100,
+    axis lines=middle,
+    xlabel={$x$},
+    ylabel={$p(x)$},
+    xtick={-3,-2,-1,0,1,2,3},
+    ytick=\empty,
+    enlargelimits=true,
+    clip=false,
+  ]
+    \addplot[blue, thick] {1/sqrt(2*pi) * exp(-x^2/2)};
+    \node at (axis cs:0,0.5) [anchor=west] { $\mathcal{N}(0, 1)$ };
+  \end{axis}
+\end{tikzpicture}
+\end{center}
 
 \end{frame}
 
@@ -663,26 +628,6 @@ x \sim P
 \[
 \mathbb{E}[\mathbf{x}] = \boldsymbol{\mu}, \quad \text{Cov}[\mathbf{x}] = \boldsymbol{\Sigma}
 \]
-\end{frame}
-
-\begin{frame}{Multivariate Gaussian: Example and Key Properties}
-\textbf{Example:} Let $\mathbf{x} \sim \mathcal{N} \left(
-\begin{bmatrix} 1 \\ 2 \end{bmatrix},
-\begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix}
-\right)$
-
-\begin{itemize}
-  \item $\boldsymbol{\mu} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$
-  \item $\boldsymbol{\Sigma} = \begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix}$
-\end{itemize}
-
-\vspace{0.5em}
-\textbf{Properties:}
-\begin{itemize}
-  \item Marginals are Gaussian
-  \item Affine transformations preserve Gaussianity
-  \item If $\mathbf{x}_1$ and $\mathbf{x}_2$ are jointly Gaussian, then $\mathbf{x}_1 \mid \mathbf{x}_2$ is Gaussian
-\end{itemize}
 \end{frame}
 
 \begin{frame}{Why Are We Obsessed with Gaussians?}
