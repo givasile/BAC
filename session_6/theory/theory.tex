@@ -1,0 +1,290 @@
+\documentclass{beamer}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
+
+\usetheme{Boadilla}
+\usecolortheme{seahorse}
+
+\title{Bayesian Analysis Course}
+\subtitle{A quick recap}
+
+\author{Vasilis Gkolemis}
+\institute{ATHENA RC | HUA}
+\date{June 2025}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+  \vfill
+  \footnotesize
+  \textcopyright\
+  Vasilis Gkolemis, 2025. Licensed under CC BY 4.0.
+\end{frame}
+
+% Automatically insert agenda slide at the start of each section
+\AtBeginSection[]{
+  \begin{frame}{Program}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\section{Course Recap}
+
+\begin{frame}
+  \title{Course Overview}
+  \begin{block}{Course objective}
+    \only<1>{Be able to apply \textcolor{red}{probabilistic} models to real-world problems.}
+    \only<2->{Be able to apply \textcolor{red}{\st{probabilistic}} models to real-world problems.}
+
+    \only<2->{Be able to apply \textcolor{blue}{Bayesian} models to real-world problems.}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Session 1: Probabilistic Modeling and Reasoning}
+  \begin{block}{Key Topics}
+    \begin{itemize}
+      \item The Role of Uncertainty in Machine Learning
+      \item Probabilistic Modeling and Reasoning
+      \item Application on the Altzheimer Test
+      \item Key Rules of Probability
+    \end{itemize}
+  \end{block}
+  \vfill
+  \centering
+  \textcolor{red}{\large Modeling Uncertainty}
+\end{frame}
+
+% --- Recap Slide 2 ---
+\begin{frame}{Session 2: Probabilities and Random Variables}
+  \begin{block}{Key Topics}
+    \begin{itemize}
+      \item Random Variables and Probability Distributions
+      \item Basic Properties of Random Variables
+        \begin{itemize}
+        \item Expectation $\mathbb{E}[X]$
+        \item Variance $\text{Var}(X)$
+        \item Sampling to approximate them
+          \begin{itemize}
+          \item $\mathbb{E}[X] \approx \frac{1}{N} \sum_{i=1}^{N} x_i$
+          \item $\text{Var}(X) \approx \frac{1}{N} \sum_{i=1}^{N} (x_i - \mathbb{E}[X])^2$
+          \end{itemize}
+        \end{itemize}
+      \item Common Probability Distributions
+        \begin{itemize}
+          \item Bernoulli, Binomial, Poisson, Gaussian
+          \item Multivariate Gaussian: $\mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma})$
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  \vfill
+  \centering
+  \textcolor{red}{\large Random Variables are the Building Blocks}
+\end{frame}
+
+% --- Recap Slide 3 ---
+\begin{frame}{Session 3: Bayesian Modeling — A Unified Framework}
+  \begin{block}{Key Topics}
+    \begin{itemize}
+    \item Probabilistic vs. Statistical vs. Bayesian Models
+      \begin{itemize}
+      \item Probabilistic Model: a known probability distribution $p(x, y)$
+      \item Statistical Model: a model with unknown parameters $\boldsymbol{\theta}$, e.g., $p(x, y ; \boldsymbol{\theta})$
+        \begin{itemize}
+        \item Defines a set of probabilistic models: $\{p(x, y ; \boldsymbol{\theta})\}_{\boldsymbol{\theta} \in \Theta}$
+        \end{itemize}
+      \item Bayesian Model: a statistical model with a prior distribution $p(\boldsymbol{\theta})$
+      \end{itemize}
+    \item Prior $p(\boldsymbol{\theta})$
+      \begin{itemize}
+      \item Our beliefs about the parameters before observing data
+      \end{itemize}
+    \item Likelihood $p(\boldsymbol{y} | \boldsymbol{x}, \boldsymbol{\theta})$
+      \begin{itemize}
+      \item How likely is the data given the parameters
+      \end{itemize}
+    \item Posterior $p(\boldsymbol{\theta} | \boldsymbol{x}, \boldsymbol{y})$
+      \begin{itemize}
+      \item Our updated beliefs about the parameters after observing data
+      \end{itemize}
+    \item Predictive Posterior Distribution $p(y|\boldsymbol{x}, \mathcal{D})$
+      \begin{itemize}
+      \item Predict on new inputs $\boldsymbol{x}$
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% --- Recap Slide 4 ---
+\begin{frame}{Session 4: Bayesian Linear Regression}
+  \begin{block}{Key Topics}
+    \begin{itemize}
+    \item Linear Regression as a Probabilistic Model
+      \begin{itemize}
+        \item Model: $y = \boldsymbol{x}^T \boldsymbol{\theta} + \epsilon$, where $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+        \item Likelihood: $p(\boldsymbol{y} | \boldsymbol{X}, \boldsymbol{\theta}, \sigma^2) = \mathcal{N}(\boldsymbol{X}\boldsymbol{\theta}, \sigma^2\boldsymbol{I})$
+      \end{itemize}
+    \item Exact Inference with Conjugate Priors
+      \begin{itemize}
+      \item Some prior--likelihood pairs lead to closed-form solutions
+      \item Conjugate Prior: A prior that, when combined with a likelihood, results in a posterior of the same family
+        \begin{itemize}
+        \item Example: Gaussian likelihood with Gaussian prior
+        \end{itemize}
+      \end{itemize}
+    \item Posterior Distribution
+      \begin{itemize}
+        \item Posterior: $p(\boldsymbol{\theta} | \boldsymbol{X}, \boldsymbol{y}) = \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ is Gaussian
+        \item Close-form solutions are available:
+          \begin{itemize}
+            \item $\boldsymbol{\Sigma} = (\boldsymbol{X}^T\boldsymbol{X} + \sigma^{-2}\boldsymbol{I})^{-1}$
+            \item $\boldsymbol{\mu} = \sigma^{-2}\boldsymbol{\Sigma}\boldsymbol{X}^T\boldsymbol{y}$
+          \end{itemize}
+        \end{itemize}
+\end{itemize}
+  \end{block}
+\end{frame}
+
+% --- Recap Slide 5 ---
+\begin{frame}{Session 5: Bayesian Logistic Regression}
+  \begin{block}{Key Topics}
+    \begin{itemize}
+    \item Logistic Regression as a Probabilistic Model
+      \begin{itemize}
+        \item Model: $p(y=1|\boldsymbol{x}, \boldsymbol{\theta}) = \sigma(\boldsymbol{x}^T\boldsymbol{\theta})$, where $\sigma(z) = \frac{1}{1 + e^{-z}}$
+      \end{itemize}
+      \item Approximate Inference Methods:
+        \begin{itemize}
+        \item Laplace Approximation
+          \begin{itemize}
+            \item Gaussian centered at the MAP estimate
+            \item Hessian used to approximate the curvature
+          \end{itemize}
+        \item Importance Sampling
+          \begin{itemize}
+            \item Samples from a proposal distribution $q(\boldsymbol{\theta})$
+            \item Weights are computed as $w(\boldsymbol{\theta}) = \frac{p(\boldsymbol{\theta} | \boldsymbol{X}, \boldsymbol{y})}{q(\boldsymbol{\theta})}$
+            \end{itemize}
+          \item Markov Chain Monte Carlo (MCMC)
+          \begin{itemize}
+            \item Samples from the posterior distribution directly
+            \item Examples: Metropolis-Hastings, Gibbs Sampling
+            \end{itemize}
+          \end{itemize}
+\end{itemize}
+  \end{block}
+\end{frame}
+
+% --- Recap Slide 6 ---
+\begin{frame}{Session 6: Putting It All Together}
+  \begin{block}{Key Topics}
+    \begin{itemize}
+      \item Let's solve a Real-World Problem with Bayesian Modeling
+        \begin{itemize}
+        \item Application of all concepts learned in the course
+        \end{itemize}
+      \item Two main datasets:
+        \begin{itemize}
+        \item Bike Sharing Dataset
+          \begin{itemize}
+          \item Predict the number of bike rentals based on weather and time features
+          \end{itemize}
+        \item Boston Housing Dataset
+          \begin{itemize}
+          \item Predict house prices based on various features
+          \end{itemize}
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  \vfill
+  \centering
+  \textcolor{blue}{\large From Theory to Practice}
+\end{frame}
+
+
+\section{Real-World Applications}
+
+% --- Slide 1: Bike Sharing Dataset Description ---
+\begin{frame}{Dataset: Bike Sharing}
+  \begin{block}{What is it?}
+    \begin{itemize}
+      \item Collected by Capital Bikeshare in Washington, D.C.
+      \item Contains daily and hourly counts of bike rentals.
+      \item Includes contextual and weather information.
+    \end{itemize}
+  \end{block}
+  \begin{block}{Key Features}
+    \begin{itemize}
+      \item \textbf{datetime}: Date and hour.
+      \item \textbf{season}: Winter, spring, summer, fall.
+      \item \textbf{holiday}: Whether the day is a holiday.
+      \item \textbf{workingday}: Is it a workday?
+      \item \textbf{weather}: Clear, mist, rain, snow.
+      \item \textbf{temp}, \textbf{atemp}: Temperature, perceived temperature.
+      \item \textbf{humidity}, \textbf{windspeed}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% --- Slide 2: Bike Sharing — Goal & Task ---
+\begin{frame}{Bike Sharing: Prediction Goal}
+  \begin{block}{Prediction Task}
+    \begin{itemize}
+      \item Predict the \textbf{total rental count} (\texttt{count}) for a given day or hour.
+      \item Understand how weather, seasonality, and holidays affect demand.
+    \end{itemize}
+  \end{block}
+  \vfill
+  \centering
+  \textcolor{purple}{\large Apply a Bayesian linear regression model.}
+\end{frame}
+
+% --- Slide 1: Boston Housing Dataset Description ---
+\begin{frame}{Dataset: Boston Housing}
+  \begin{block}{What is it?}
+    \begin{itemize}
+      \item Classic dataset from the 1970s housing data for Boston suburbs.
+      \item Collected by the U.S. Census Service.
+      \item Widely used for regression tasks.
+    \end{itemize}
+  \end{block}
+  Key Features:
+    \begin{itemize}
+      \item Socio-economic indicators such as crime rate, income levels, and education.
+      \item Housing characteristics like the average number of rooms and age of buildings.
+      \item Environmental factors including air pollution levels and proximity to the Charles River.
+      \item Accessibility measures such as distances to employment centers and highways.
+      \item Local taxation and zoning information.
+    \end{itemize}
+\end{frame}
+
+% --- Slide 2: Boston Housing — Goal & Task ---
+\begin{frame}{Boston Housing: Prediction Goal}
+  \begin{block}{Prediction Task}
+    \begin{itemize}
+      \item Predict \textbf{MEDV}: Median value of owner-occupied homes (\$1000s).
+      \item Explore how socio-economic and environmental factors affect house prices.
+    \end{itemize}
+  \end{block}
+  \vfill
+  \centering
+  \textcolor{teal}{\large Apply a Bayesian linear regression model.}
+\end{frame}
+
+\section{Tools and Libraries}
+
+\begin{frame}{Useful R Packages for Bayesian Modeling}
+  Key R packages for Bayesian modeling and inference:
+    \begin{itemize}
+      \item \textbf{rstan} — Interface to Stan for Bayesian inference using MCMC.
+      \item \textbf{brms} — Bayesian regression models using Stan; user-friendly formula syntax.
+      \item \textbf{bayesplot} — Flexible plotting of posterior distributions and diagnostics.
+      \item \textbf{tidybayes} — Tidy data tools for working with Bayesian models.
+      \item \textbf{coda} — Tools for MCMC output analysis and diagnostics.
+    \end{itemize}
+\end{frame}
+
+\end{document}

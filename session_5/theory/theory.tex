@@ -265,6 +265,24 @@ p(\boldsymbol{\theta} \mid \mathcal{D}) \propto p(\mathcal{D} \mid \boldsymbol{\
 \end{frame}
 
 \section{Importance Sampling}
+
+\begin{frame}{Posterior Samples}
+\begin{itemize}
+\item Often we are not interested in the posterior distribution itself, but rather in samples from it.
+\item Why?
+  \begin{itemize}
+  \item \( \boldsymbol{\theta}^i \sim p(\theta | X, y) \)
+  \item Each sample gives a possible configuration of the model parameters.
+  \item Each sample gives one prediction: \( y^i \sim p(y | X, \boldsymbol{\theta}^i) \)
+  \item We can use these samples to estimate mean and variance of predictions:
+    \[
+      \hat{\mu} = \frac{1}{N} \sum_{i=1}^N y^i, \quad \hat{\sigma}^2 = \frac{1}{N-1} \sum_{i=1}^N (y^i - \hat{\mu})^2
+    \]
+  \end{itemize}
+\item But how do we obtain these samples?
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Importance Sampling: Motivation}
 \begin{itemize}
     \item Goal: Compute expectations under a difficult distribution \( p(\theta) \) (e.g., posterior).
@@ -400,6 +418,14 @@ w_i = \frac{p(y | X, \theta_i) p(\theta_i)}{q(\theta_i)}.
 \section{Conclusion}
 
 \begin{frame}{Conclusion}
+
+  We have explored three approximate inference methods for Bayesian logistic regression:
+  \begin{itemize}
+    \item \textbf{Laplace Approximation}: Approximates the posterior with a Gaussian centered at the MAP estimate, using the inverse Hessian for covariance.
+    \item \textbf{Importance Sampling}: Samples from a simpler proposal distribution and reweights to approximate the posterior.
+    \item \textbf{MCMC}: Constructs a Markov chain to sample from the posterior, allowing for complex models where direct sampling is infeasible.
+  \end{itemize}
+
 \end{frame}
 
 
