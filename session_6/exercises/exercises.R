@@ -45,22 +45,3 @@ boston_clean <- Boston %>%
 
 Y_boston <- boston_clean$medv
 X_boston <- dplyr::select(boston_clean, -medv)
-
-
-# Bike Sharing: simple linear model
-bike_lm <- stan_glm(
-  cnt ~ temp + atemp + hum + windspeed + season + yr + mnth + weekday + workingday + holiday,
-  data = bike_clean,
-  family = gaussian(),
-  chains = 2, iter = 1000
-)
-print(bike_lm)
-
-# Boston: simple linear model
-boston_lm <- stan_glm(
-  medv ~ rm + lstat + age,
-  data = boston_clean,
-  family = gaussian(),
-  chains = 2, iter = 1000
-)
-print(boston_lm)
